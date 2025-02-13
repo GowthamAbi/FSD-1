@@ -62,7 +62,7 @@ const Sidebar = () => {
           </button>
           {openSections.expense && (
             <ul className="pl-6 space-y-1">
-              <li className="hover:bg-gray-700 p-2 rounded cursor-pointer" onClick={() => navigate("/expense/recording")}>Record Expense</li>
+              <li className="hover:bg-gray-700 p-2 rounded cursor-pointer" onClick={() => navigate("/expense/recording")}>Expense Form</li>
               <li className="hover:bg-gray-700 p-2 rounded cursor-pointer" onClick={() => navigate("/expense/list")}>List</li>
               <li className="hover:bg-gray-700 p-2 rounded cursor-pointer" onClick={() => navigate("/expense/chart")}>Chart</li>
               <li className="hover:bg-gray-700 p-2 rounded cursor-pointer" onClick={() => navigate("/expense/recurring")}>Recurring</li>

@@ -8,14 +8,14 @@ const IncomeList = ({ refresh }) => {
 
   useEffect(() => {
     fetchIncome();
-  }, [refresh]); // Re-fetch when refresh state changes
+  }, [refresh]); // ✅ Re-fetch income whenever refresh changes
 
   const fetchIncome = async () => {
     setLoading(true);
     setError("");
 
     try {
-      // Retrieve token from localStorage
+      // ✅ Retrieve token from localStorage
       const token = localStorage.getItem("authToken");
       if (!token) {
         setError("Authentication required.");
@@ -24,12 +24,12 @@ const IncomeList = ({ refresh }) => {
       }
 
       const response = await api.get("/api/income", {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${token}` },
       });
 
       setIncome(Array.isArray(response.data) ? response.data : []);
     } catch (error) {
-      console.error("Error fetching income data:", error);
+      console.error("❌ Error fetching income data:", error);
       setError("Failed to fetch income data.");
     } finally {
       setLoading(false);
@@ -49,15 +49,15 @@ const IncomeList = ({ refresh }) => {
           <thead>
             <tr className="bg-gray-200">
               <th className="border px-4 py-2">Source</th>
-              <th className="border px-4 py-2">Amount ($)</th>
+              <th className="border px-4 py-2">Amount (₹)</th>
               <th className="border px-4 py-2">Date</th>
             </tr>
           </thead>
           <tbody>
-            {income.map((inc, index) => (
-              <tr key={index} className="text-center">
+            {income.map((inc) => (
+              <tr key={inc._id} className="text-center">
                 <td className="border px-4 py-2">{inc.source}</td>
-                <td className="border px-4 py-2">${inc.amount}</td>
+                <td className="border px-4 py-2">₹{inc.amount}</td>
                 <td className="border px-4 py-2">{new Date(inc.date).toLocaleDateString()}</td>
               </tr>
             ))}

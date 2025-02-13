@@ -4,6 +4,8 @@ import { Pie, Bar, Line } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, LineElement, PointElement } from "chart.js";
 import { saveAs } from "file-saver";
 import * as XLSX from "xlsx";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 import api from "../../../services/api";
 
 // Register Chart.js components
@@ -18,14 +20,14 @@ const FinancialReports = () => {
 
   useEffect(() => {
     fetchData();
-  }, []); // Fetch data only on component mount
+  }, []);
 
   const fetchData = async () => {
     setLoading(true);
     setError(null);
 
     try {
-      const token = localStorage.getItem("token"); // Retrieve token
+      const token = localStorage.getItem("token");
 
       const headers = {
         Authorization: `Bearer ${token}`,
@@ -35,7 +37,7 @@ const FinancialReports = () => {
       const [expenseRes, budgetRes, incomeRes] = await Promise.all([
         api.get("/api/expenses", { headers }),
         api.get("/api/budgets", { headers }),
-        api.get("/api/reports", { headers }),
+        api.get("/api/income", { headers }),
       ]);
 
       setExpenses(Array.isArray(expenseRes.data) ? expenseRes.data : []);
@@ -49,7 +51,7 @@ const FinancialReports = () => {
     }
   };
 
-  // CSV Export Function
+  // ✅ Export to CSV
   const exportToCSV = () => {
     const allData = [
       ...expenses.map((e) => ({ Type: "Expense", Category: e.category, Amount: e.amount })),
@@ -65,6 +67,25 @@ const FinancialReports = () => {
     const dataBlob = new Blob([excelBuffer], { type: "application/octet-stream" });
 
     saveAs(dataBlob, "Financial_Reports.xlsx");
+  };
+
+  // ✅ Export to PDF
+  const exportToPDF = () => {
+    const doc = new jsPDF();
+    doc.text("Financial Reports", 14, 15);
+
+    const allData = [
+      ...expenses.map((e) => ["Expense", e.category, e.amount]),
+      ...budgets.map((b) => ["Budget", b.category, b.amount]),
+      ...income.map((i) => ["Income", i.date, i.amount]),
+    ];
+
+    doc.autoTable({
+      head: [["Type", "Category/Date", "Amount"]],
+      body: allData,
+    });
+
+    doc.save("Financial_Reports.pdf");
   };
 
   return (
@@ -131,6 +152,13 @@ const FinancialReports = () => {
               className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
             >
               Export to CSV
+            </button>
+
+            <button
+              onClick={exportToPDF}
+              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+            >
+              Export to PDF
             </button>
 
             <button

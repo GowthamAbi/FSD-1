@@ -8,15 +8,23 @@ import "./index.css";
 import BudgetForm from "./components/plans/Budget/BudgetForm";
 import BudgetList from "./components/plans/Budget/BudgetList";
 import ExportData from "./components/plans/Budget/ExportData";
-import ExpenseRecording from "./components/plans/Expense/ExpenseRecording";
+import ExpenseRecording from "./components/plans/Expense/ExpenseForm";
 import ExpenseList from "./components/plans/Expense/ExpenseList";
+import RecurringExpenseForm from "./components/plans/Expense/ExpenseRecurring";
+import RecurringExpenseList from "./components/plans/Expense/RecurringExpenseList";
+import FinancialGoals from "./components/plans/Goals/FinancialGoals";
+import IncomeForm from "./components/plans/Income/IncomeForm";
+import IncomeList from "./components/plans/Income/IncomeList";
+import IncomeReports from "./components/plans/Income/IncomeReports";
+import FinancialReports from "./components/plans/Report/FinancialReports";
+import DueDatesList from "./components/plans/DueBillsList";
 
 const Login = lazy(() => import("./components/pages/Login"));
 const Register = lazy(() => import("./components/pages/Register"));
 const Home = lazy(() => import("./components/pages/Home"));
 const Dashboard = lazy(() => import("./components/pages/Dashboard"));
 const BudgetChart = lazy(() => import("./components/plans/Budget/BudgetChart"));
-const ExpenseCategorization = lazy(() => import("./components/plans/Expense/ExpenseCategorization"));
+const ExpenseCategorization = lazy(() => import("./components/plans/Expense/ExpenseChart"));
 
 const Loading = () => (
   <div className="flex justify-center items-center h-screen">
@@ -51,12 +59,26 @@ const App = () => {
               <Route path="/budget/list" element={<BudgetList />} />
               <Route path="/budget/export" element={<ExportData />} />
 
-              {/* Budget Routes */}
+              {/* Expense Routes */}
               <Route path="/expense/recording" element={<ExpenseRecording />} />
               <Route path="/expense/list" element={<ExpenseList/>} />
               <Route path="/budget/list" element={<BudgetList />} />
               <Route path="/budget/export" element={<ExportData />} />
               <Route path="/expense/chart" element={<ExpenseCategorization />} />
+              <Route path="/expense/recurring" element={<RecurringExpenseForm />} />
+              <Route path="/expense/recurring-list" element={<RecurringExpenseList />} />
+
+              {/* Expense Routes */}
+              <Route path="/goals" element={<FinancialGoals />} />
+
+              {/* Income Routes */}
+              <Route path="/income/form" element={<IncomeForm />} />
+              <Route path="/income/list" element={<IncomeList />} />
+              <Route path="/income/report" element={<IncomeReports />} />
+
+              <Route path="/financialReports" element={<FinancialReports />} /> 
+
+              <Route path="/due-bill-list" element={<DueDatesList />} />
             </Routes>
           </Suspense>
         </div>

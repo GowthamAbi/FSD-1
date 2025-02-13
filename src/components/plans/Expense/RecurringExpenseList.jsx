@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import api from '../../../services/api';
 
 const RecurringExpenseList = () => {
     const [expenses, setExpenses] = useState([]);
@@ -7,36 +8,25 @@ const RecurringExpenseList = () => {
     useEffect(() => {
         const fetchExpenses = async () => {
             try {
-                const response = await fetch('http://localhost:5000/api/recurring-expenses');
-                if (!response.ok) {
-                    throw new Error('Failed to fetch expenses.');
-                }
-                const data = await response.json();
-                setExpenses(data);
+                const response = await api.get("/api/expenses/recurring"); 
+                setExpenses(response.data); // ✅ Use response.data directly
             } catch (error) {
-                setError(error.message);
+                setError(error.response?.data?.message || "Failed to fetch expenses.");
             }
         };
-
+    
         fetchExpenses();
     }, []);
-
+    
     const handleDelete = async (id) => {
         try {
-            const response = await fetch(`http://localhost:5000/api/recurring-expenses/${id}`, {
-                method: 'DELETE',
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to delete expense.');
-            }
-
-            setExpenses(expenses.filter(expense => expense._id !== id));
+            await api.delete(`/api/expenses/recurring/${id}`); // ✅ No need for `response.ok`
+            
+            setExpenses(expenses.filter(expense => expense._id !== id)); // ✅ Update state
         } catch (error) {
-            setError(error.message);
+            setError(error.response?.data?.message || "Failed to delete expense.");
         }
     };
-
     return (
         <div className="mt-4 p-4 border rounded-lg shadow-md bg-white">
             {error && <p className="text-red-500">{error}</p>}
