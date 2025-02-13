@@ -62,8 +62,8 @@ const ExportData = () => {
   };
 
   return (
-    <div>
-      <h2 className="text-xl font-bold">Budget Data</h2>
+    <div className="flex justify-center m-8 ">
+      <h2 className="text-xl font-bold m-8">Budget Data</h2>
 
       {loading ? (
         <p>Loading data...</p>
@@ -72,7 +72,7 @@ const ExportData = () => {
       ) : (
         <button
           onClick={exportCSV}
-          className="bg-green-500 text-white p-2 mt-4 rounded-md shadow-md hover:bg-green-600"
+          className="bg-green-500 text-white p-4 text-2xl  mt-4 rounded-md shadow-md hover:bg-green-600"
         >
           Export CSV
         </button>
