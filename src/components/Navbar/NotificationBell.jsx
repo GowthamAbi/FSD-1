@@ -16,7 +16,6 @@ const NotificationBell = () => {
                 return;
             }
 
-            console.log("🔍 Fetching financial data...");
 
             // Fetch Income, Expense, and Budget data
             const [incomeRes, expenseRes, budgetRes] = await Promise.all([
@@ -24,12 +23,6 @@ const NotificationBell = () => {
                 api.get("/api/expenses", { headers: { Authorization: `Bearer ${token}` } }),
                 api.get("/api/budgets", { headers: { Authorization: `Bearer ${token}` } })
             ]);
-
-            console.log("✅ API Responses:", { 
-                income: incomeRes.data, 
-                expense: expenseRes.data, 
-                budget: budgetRes.data 
-            });
 
             checkFinancialStatus(incomeRes.data, expenseRes.data, budgetRes.data);
         } catch (error) {
@@ -79,9 +72,10 @@ const NotificationBell = () => {
             totalBudget = budgetArray[0].amount || 0;
         }
 
-        console.log("✅ Processed Financial Data:", { totalIncome, totalExpense, totalBudget });
 
         let newNotifications = [];
+
+
 
         if (totalIncome < totalExpense) {
             newNotifications.push("Warning: Your expenses are higher than your income!");
@@ -89,9 +83,11 @@ const NotificationBell = () => {
         if (totalExpense > totalBudget) {
             newNotifications.push("Alert: Your expenses exceed your budget!");
         }
-        if (totalBudget >= totalIncome) {
+
+        if (totalBudget >= totalIncome&&totalIncome>0) {
             newNotifications.push("Great job! Your budget is well-managed.");
         }
+        
 
         setNotifications(newNotifications);
     };

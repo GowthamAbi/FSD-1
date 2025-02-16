@@ -23,7 +23,6 @@ const Dashboard = () => {
   // ✅ Fetch Dashboard Data from Backend
   const fetchDashboardData = async (token) => {
     try {
-      console.log("Fetching Dashboard Data...");
       const responses = await Promise.all([
         api.get("/api/income", { headers: { Authorization: `Bearer ${token}` } }),
         api.get("/api/expenses", { headers: { Authorization: `Bearer ${token}` } }),

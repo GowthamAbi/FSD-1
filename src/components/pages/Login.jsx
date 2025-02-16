@@ -1,22 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../../services/api';
-import { jwtDecode } from "jwt-decode"; // Ensure installed: npm install jwt-decode
+import { jwtDecode } from "jwt-decode"; 
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  // ✅ Function to check token expiration
+  // ✅ Function to check if the token is valid
   const isTokenValid = (token) => {
     try {
       const decoded = jwtDecode(token);
-      return decoded.exp > Date.now() / 1000; 
+      return decoded.exp > Date.now() / 1000; // Expiry check
     } catch (err) {
-      return false; 
+      return false; // Invalid token
     }
   };
 
@@ -43,13 +42,10 @@ const Login = () => {
       if (response.status === 200 && response.data.token) {
         const token = response.data.token;
 
-        if (rememberMe) {
-          localStorage.setItem('authToken', token);
-        } else {
-          sessionStorage.setItem('authToken', token);
-        }
+        // ✅ Store token in localStorage (or sessionStorage)
+        localStorage.setItem('authToken', token);
 
-        navigate('/dashboard');
+        navigate('/dashboard'); // Redirect after login
       } else {
         setError(response.data.message || 'Invalid email or password');
       }
@@ -60,11 +56,13 @@ const Login = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="flex flex-col h-screen bg-gray-50">
       {/* ✅ Full-Width Section for Login */}
-      <section className="flex flex-1 items-center justify-center w-full bg-gray-50 dark:bg-gray-900">
+      <section className="flex flex-1 items-center justify-center w-full bg-gray-50 dark:bg-gray-400">
         <div className="w-full md:w-1/2 lg:w-1/3 bg-white rounded-lg shadow-lg p-8 dark:bg-gray-800">
-          <h1 className="text-2xl font-bold text-center text-gray-900 dark:text-white">Sign in to your account</h1>
+          <h1 className="text-2xl font-bold text-center text-gray-900 dark:text-white">
+            Sign in to your account
+          </h1>
           
           <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
             {/* ✅ Email Input */}
@@ -91,20 +89,6 @@ const Login = () => {
                 placeholder="••••••••"
                 required
               />
-            </div>
-
-            {/* ✅ Remember Me & Forgot Password */}
-            <div className="flex items-center justify-between">
-              <label className="flex items-center">
-                <input
-                  type="checkbox"
-                  checked={rememberMe}
-                  onChange={(e) => setRememberMe(e.target.checked)}
-                  className="mr-2"
-                />
-                <span className="text-gray-600 dark:text-gray-400">Remember me</span>
-              </label>
-              <a href="/forgot-password" className="text-sm text-blue-600 hover:underline dark:text-blue-400">Forgot password?</a>
             </div>
 
             {/* ✅ Submit Button */}

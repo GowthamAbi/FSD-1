@@ -9,7 +9,6 @@ const BudgetList = () => {
  const fetchBudgets = async () => {
   try {
     let token = localStorage.getItem("authToken");
-    console.log("🔹 Retrieved Token:", token);
 
     if (!token) {
       console.warn("⚠️ No authentication token found. Redirecting to login...");
@@ -19,7 +18,6 @@ const BudgetList = () => {
 
     // Ensure "Bearer " is prefixed correctly
     const authHeader = token.startsWith("Bearer ") ? token : `Bearer ${token}`;
-    console.log("🔹 Auth Header:", authHeader);
 
     const response = await api.get("/api/budgets", {
       headers: {
@@ -28,7 +26,6 @@ const BudgetList = () => {
       },
     });
 
-    console.log("✅ Budget Data:", response.data);
     setBudgets(response.data);
   } catch (error) {
     console.error("❌ Error fetching budgets:", error.response ? error.response.data : error.message);

@@ -1,5 +1,5 @@
 import React, { Suspense, lazy, useState } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "./components/header/Navbar";
 import Footer from "./components/footer/Footer";
 import Sidebar from "./components/Sidebar";
@@ -35,43 +35,46 @@ const Loading = () => (
 
 const App = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
+  const location = useLocation(); // Get current page path
+
+  // Hide Sidebar on Home, Login & Register pages
+  const shouldShowSidebar = !["/login", "/register", "/"].includes(location.pathname);
 
   return (
-    <div className="flex h-screen bg-gray-100">
-      {/* Sidebar */}
-      <Sidebar isOpen={isSidebarOpen} toggleSidebar={() => setSidebarOpen(!isSidebarOpen)} /> 
+    <div className="flex h-screen">
+      {/* Sidebar (Only Visible if Not on Login, Register, or Home) */}
+      {shouldShowSidebar && (
+        <Sidebar isOpen={isSidebarOpen} toggleSidebar={() => setSidebarOpen(!isSidebarOpen)} />
+      )}
 
       {/* Main Content */}
-      <div className={`flex flex-col flex-1 transition-all duration-300 ${isSidebarOpen ? "ml-64" : "ml-0"}`}>
-        <Navbar toggleSidebar={() => setSidebarOpen(!isSidebarOpen)} />
+      <div className={`flex flex-col flex-1 transition-all duration-300 ${shouldShowSidebar ? "ml-64" : "ml-0"}`}>
+        {shouldShowSidebar && <Navbar toggleSidebar={() => setSidebarOpen(!isSidebarOpen)} />}
 
         <div className="flex-1 p-4">
-          <NotificationBell />
+          {shouldShowSidebar && <NotificationBell />}
           <Suspense fallback={<Loading />}>
             <Routes>
+              <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-              <Route path="/" element={<Home />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/account-summary" element={<AccountSummary />} />
 
-
               {/* Budget Routes */}
               <Route path="/budget/chart" element={<BudgetChart />} />
-              <Route path="/budget/form" element={<BudgetForm/>} />
+              <Route path="/budget/form" element={<BudgetForm />} />
               <Route path="/budget/list" element={<BudgetList />} />
               <Route path="/budget/export" element={<ExportData />} />
 
               {/* Expense Routes */}
               <Route path="/expense/recording" element={<ExpenseRecording />} />
-              <Route path="/expense/list" element={<ExpenseList/>} />
-              <Route path="/budget/list" element={<BudgetList />} />
-              <Route path="/budget/export" element={<ExportData />} />
+              <Route path="/expense/list" element={<ExpenseList />} />
               <Route path="/expense/chart" element={<ExpenseCategorization />} />
               <Route path="/expense/recurring" element={<RecurringExpenseForm />} />
               <Route path="/expense/recurring-list" element={<RecurringExpenseList />} />
 
-              {/* Expense Routes */}
+              {/* Goals */}
               <Route path="/goals" element={<FinancialGoals />} />
 
               {/* Income Routes */}
@@ -79,14 +82,14 @@ const App = () => {
               <Route path="/income/list" element={<IncomeList />} />
               <Route path="/income/report" element={<IncomeReports />} />
 
-              <Route path="/financialReports" element={<FinancialReports />} /> 
-
+              {/* Reports & Due Bills */}
+              <Route path="/financialReports" element={<FinancialReports />} />
               <Route path="/due-bill-list" element={<DueDatesList />} />
             </Routes>
           </Suspense>
         </div>
 
-        <Footer />
+        {shouldShowSidebar && <Footer />}
       </div>
     </div>
   );

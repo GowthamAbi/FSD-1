@@ -26,7 +26,7 @@ const ProfileMenu = ({ setIsProfileOpen }) => {
               className="hover:bg-gray-200 cursor-pointer text-black px-4 py-2"
               onClick={() => handleClick('/account-summary')}
             >
-              Account Summary
+              Profile
             </li>
             <li
               className="hover:bg-gray-200 cursor-pointer text-black px-4 py-2"
