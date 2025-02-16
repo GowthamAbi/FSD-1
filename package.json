@@ -9,11 +9,9 @@
     "lint": "eslint .",
     "preview": "vite preview"
   },
-
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.7.2",
     "@heroicons/react": "^1.0.6",
-    "@tailwindcss/vite": "^4.0.3",
     "axios": "^1.7.9",
     "chart.js": "^4.4.7",
     "file-saver": "^2.0.5",
@@ -37,6 +35,9 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.19.0",
+    "@tailwindcss/oxide-win32-x64-msvc": "^4.0.6",
+    "@tailwindcss/postcss": "^4.0.6",
+    "@tailwindcss/vite": "^4.0.6",
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
     "@vitejs/plugin-react": "^4.3.4",
@@ -46,11 +47,11 @@
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.18",
     "globals": "^15.14.0",
-    "postcss": "^8.5.1",
+    "postcss": "^8.5.2",
     "tailwindcss": "^4.0.6",
     "vite": "^6.1.0"
   },
   "optionalDependencies": {
-  "@rollup/rollup-linux-x64-gnu": "^4.34.7"
-}
+    "@tailwindcss/oxide-linux-x64-gnu": "^4.0.6"
+  }
 }
