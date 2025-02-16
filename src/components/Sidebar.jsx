@@ -23,7 +23,7 @@ const Sidebar = () => {
 
   return (
     <div className="w-64 h-screen bg-gray-900 text-white p-4 fixed top-18 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-900">
-      <h2 className="text-xl font-bold mb-4">Dashboard</h2>
+      <h2 className="text-xl font-bold mb-4 cursor-pointer" onClick={() => navigate("/dashboard")}>Dashboard</h2>
       <ul className="space-y-2">
         <li>
           <button onClick={() => toggleSection("budget")} className="w-full flex items-center justify-between p-2 hover:bg-gray-700 rounded">
