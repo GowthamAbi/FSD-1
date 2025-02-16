@@ -18,6 +18,7 @@ import IncomeList from "./components/plans/Income/IncomeList";
 import IncomeReports from "./components/plans/Income/IncomeReports";
 import FinancialReports from "./components/plans/Report/FinancialReports";
 import DueDatesList from "./components/plans/DueBillsList";
+import AccountSummary from "./components/pages/AccountSummary";
 
 const Login = lazy(() => import("./components/pages/Login"));
 const Register = lazy(() => import("./components/pages/Register"));
@@ -52,6 +53,8 @@ const App = () => {
               <Route path="/register" element={<Register />} />
               <Route path="/" element={<Home />} />
               <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/account-summary" element={<AccountSummary />} />
+
 
               {/* Budget Routes */}
               <Route path="/budget/chart" element={<BudgetChart />} />
